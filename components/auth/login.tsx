@@ -8,10 +8,50 @@ import { Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import { OAuthProvider } from "appwrite";
+import { account } from "@/helpers/appwrite";
+import React, { Fragment, useState } from "react";
 
 export const Login = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const router = useRouter();
 
+  const handleGoogleAuth = async () => {
+    try {
+      setLoading(true);
+      await account.createOAuth2Session(
+        "google" as OAuthProvider,
+        "https://my-dashboard-next-js.vercel.app/",
+        "https://my-dashboard-next-js.vercel.app/failure"
+      );
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
+    } catch (error) {
+      console.error("OAuth2 session creation failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGitHubAuth = async () => {
+    try {
+      setLoading(true);
+      await account.createOAuth2Session(
+        "github" as OAuthProvider,
+        "https://my-dashboard-next-js.vercel.app/",
+        "https://my-dashboard-next-js.vercel.app/failure"
+      );
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
+    } catch (error) {
+      console.error("GitHub auth error:", error);
+      alert("Authentication failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
   const initialValues: LoginFormType = {
     email: "admin@acme.com",
     password: "admin",
@@ -70,7 +110,7 @@ export const Login = () => {
             <div className="flex flex-col gap-4 mt-6">
               <button
                 className="flex w-full items-center justify-center gap-2 rounded-lg bg-black px-5 py-3 text-sm font-bold text-white hover:bg-gray-800 disabled:opacity-50"
-                // onClick={handleGoogleAuth}
+                onClick={handleGoogleAuth}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +139,7 @@ export const Login = () => {
               </button>
               <button
                 className="flex w-full items-center justify-center gap-2 rounded-lg border border-black bg-white px-5 py-3 text-sm font-bold text-black hover:bg-gray-200 disabled:opacity-50"
-                // onClick={handleGitHubAuth}
+                onClick={handleGitHubAuth}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -113,6 +153,11 @@ export const Login = () => {
                 </svg>
                 Github
               </button>
+              {showSuccessMessage && (
+                <div className="mt-4 text-center text-sm text-green-600">
+                  ✅ Login successful!
+                </div>
+              )}
             </div>
           </>
         )}

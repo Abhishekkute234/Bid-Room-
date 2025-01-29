@@ -79,7 +79,7 @@ export const SidebarWrapper = () => {
               />
             </SidebarMenu>
 
-            <SidebarMenu title="General">
+            {/* <SidebarMenu title="General">
               <SidebarItem
                 isActive={pathname === "/developers"}
                 title="Developers"
@@ -95,18 +95,18 @@ export const SidebarWrapper = () => {
                 title="Settings"
                 icon={<SettingsIcon />}
               />
-            </SidebarMenu>
+            </SidebarMenu> */}
 
-            <SidebarMenu title="Updates">
+            {/* <SidebarMenu title="Updates">
               <SidebarItem
                 isActive={pathname === "/changelog"}
                 title="Changelog"
                 icon={<ChangeLogIcon />}
               />
-            </SidebarMenu>
+            </SidebarMenu> */}
           </div>
           <div className={Sidebar.Footer()}>
-            <Tooltip content={"Settings"} color="primary">
+            {/* <Tooltip content={"Settings"} color="primary">
               <div className="max-w-fit">
                 <SettingsIcon />
               </div>
@@ -115,13 +115,13 @@ export const SidebarWrapper = () => {
               <div className="max-w-fit">
                 <FilterIcon />
               </div>
-            </Tooltip>
-            <Tooltip content={"Profile"} color="primary">
+            </Tooltip> */}
+            {/* <Tooltip content={"Profile"} color="primary">
               <Avatar
                 src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                 size="sm"
               />
-            </Tooltip>
+            </Tooltip> */}
           </div>
         </div>
       </div>

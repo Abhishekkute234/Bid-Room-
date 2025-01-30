@@ -19,6 +19,11 @@ enum ErrorMessages {
   UNKNOWN_ERROR = "Unknown error",
 }
 
+// Add MongoDB error interface
+interface MongoError extends Error {
+  code?: number;
+}
+
 export async function POST(request: Request) {
   try {
     // Connect to the database
@@ -51,8 +56,11 @@ export async function POST(request: Request) {
   } catch (error: unknown) {
     logger.error("Error creating user:", error);
 
-    // Handle MongoDB duplicate key error
-    if (error instanceof Error && "code" in error && error.code === 11000) {
+    // Handle MongoDB duplicate key error with proper type checking
+    if (
+      error instanceof Error &&
+      (error as MongoError).code === 11000
+    ) {
       return NextResponse.json({
         success: false,
         error: "Duplicate Error",
